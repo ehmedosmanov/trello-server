@@ -8,7 +8,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
-
   app.setGlobalPrefix('api');
 
   app.useGlobalPipes(
@@ -21,7 +20,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Trello Clone API')
     .setDescription(
-      'API documentation for a Trello Clone task management application. This API allows users to manage boards, columns, cards, and comments with full authentication and authorization features. Utilize this documentation to interact with the endpoints for creating, updating, retrieving, and deleting resources related to project management.',
+      'API documentation for a Trello Clone task management application.',
     )
     .setVersion('1.0')
     .addBearerAuth()
