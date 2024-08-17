@@ -8,10 +8,12 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -20,12 +22,15 @@ import {
 } from '@nestjs/swagger';
 import { UserEntity } from './user.entity';
 import { AuthDto } from '../auth/dtos/auth.dto';
+import { ColumnEntity } from '../column/column.entity';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('users')
 @ApiTags('Users')
+@UseGuards(AuthGuard)
+@ApiBearerAuth('JWT-auth')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
 
   @Get()
   @HttpCode(HttpStatus.OK)
@@ -82,5 +87,23 @@ export class UserController {
   @ApiNotFoundResponse({ description: 'User not found' })
   delete(@Param('id') id: number) {
     return this.userService.deleteUser(id);
+  }
+
+  @Get(':id/columns')
+  @ApiOperation({ summary: 'Get all columns by user Id' })
+  @ApiOkResponse({
+    description: 'List of all columns by the user',
+    type: [ColumnEntity],
+  })
+  getUserColumns(@Param('id') userId: number) {
+    return this.userService.findUserColumns(userId);
+  }
+
+  @Delete(':userId/columns/:id')
+  @ApiOperation({ summary: 'Delete a column by userId and own id' })
+  @ApiOkResponse({ description: 'Column deleted successfully' })
+  @ApiNotFoundResponse({ description: 'User or column not found' })
+  deleteColumnByUser(@Param('userId') userId: number, @Param('id') id: number) {
+    return this.userService.deleteColumnsByUser(userId, id);
   }
 }

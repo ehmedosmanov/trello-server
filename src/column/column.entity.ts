@@ -14,7 +14,7 @@ export class ColumnEntity extends BaseEntity {
   @OneToMany(() => CardEntity, (card) => card.column)
   cards: CardEntity[];
 
-  @ApiProperty()
+  @ApiProperty({ type: () => UserEntity })
   @ManyToOne(() => UserEntity, (user) => user.columns, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;

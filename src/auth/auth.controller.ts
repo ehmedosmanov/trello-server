@@ -1,24 +1,36 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from '../user/user.entity';
 import { AuthDto } from './dtos/auth.dto';
+import { CurrentUser } from './decorators/current-user.decorator.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('auth')
-@ApiTags('Auth')  
+@ApiTags('Auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Sign up a new user' }) 
+  @ApiOperation({ summary: 'Sign up a new user' })
   @ApiOkResponse({
     description: 'User successfully signed up',
     type: UserEntity,
@@ -57,5 +69,18 @@ export class AuthController {
   })
   login(@Body() body: AuthDto) {
     return this.authService.login(body);
+  }
+
+  @Get('account')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Get current user' })
+  @ApiOkResponse({
+    description: 'Getting user successfully',
+    type: UserEntity,
+  })
+  @ApiNotFoundResponse({ description: 'User not found' })
+  account(@CurrentUser() user: UserEntity) {
+    return user;
   }
 }

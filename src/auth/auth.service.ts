@@ -1,7 +1,7 @@
 import { UserService } from './../user/user.service';
 import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from '../user/user.entity';
 import { Repository } from 'typeorm';
 import { AuthDto } from './dtos/auth.dto';
 import * as bcrypt from 'bcryptjs';
