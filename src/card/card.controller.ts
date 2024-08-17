@@ -14,6 +14,7 @@ import {
 import { CardService } from './card.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
@@ -25,11 +26,12 @@ import {
 import { CardEntity } from './card.entity';
 import { CreateCardDto } from './dtos/create-card.dto';
 import { UpdateCardDto } from './dtos/update-card.dto';
+import { MoveCardDto } from './dtos/move-card.dto';
 
-@Controller('card')
+@Controller('cards')
 @ApiTags('Cards')
-// @UseGuards(AuthGuard)
-// @ApiBearerAuth('JWT-auth')
+@UseGuards(AuthGuard)
+@ApiBearerAuth('JWT-auth')
 export class CardController {
   constructor(private readonly cardService: CardService) {}
 
@@ -77,7 +79,10 @@ export class CardController {
   })
   @ApiNotFoundResponse({ description: 'Card not found' })
   @ApiBody({ type: UpdateCardDto })
-  updateCard(@Param('id', ParseIntPipe) id: number, @Body() updateCardDto: UpdateCardDto) {
+  updateCard(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateCardDto: UpdateCardDto,
+  ) {
     return this.cardService.updateCard(id, updateCardDto);
   }
 
@@ -88,5 +93,31 @@ export class CardController {
   @ApiNotFoundResponse({ description: 'Card not found' })
   deleteCard(@Param('id', ParseIntPipe) id: number) {
     return this.cardService.deleteColumn(id);
+  }
+
+  @Put(':id/move')
+  @ApiOperation({ summary: 'Move a card to a different column' })
+  @ApiOkResponse({
+    description: 'Card moved successfully',
+    type: CardEntity,
+  })
+  @ApiBadRequestResponse({ description: 'Invalid data or card not found' })
+  moveCard(
+    @Param('id', ParseIntPipe) cardId: number,
+    @Body() moveCardDto: MoveCardDto,
+  ) {
+    return this.cardService.moveCard(cardId, moveCardDto);
+  }
+
+  @Get('/column/:columnId')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Get a card by column id' })
+  @ApiOkResponse({
+    description: 'Card getted successfully',
+    type: CardEntity,
+  })
+  @ApiNotFoundResponse({ description: 'Card not found' })
+  findCardsByColumnId(@Param('columnId', ParseIntPipe) id: number) {
+    return this.cardService.findCardsByColumnId(id);
   }
 }

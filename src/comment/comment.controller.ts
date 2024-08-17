@@ -9,9 +9,11 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
   ApiNotFoundResponse,
@@ -22,11 +24,12 @@ import {
 import { CommentEntity } from './comment.entity';
 import { CreateCommentDto } from './dtos/create-comment.dto';
 import { UpdateCommentDto } from './dtos/update-comment.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('comment')
 @ApiTags('Comments')
-// @UseGuards(AuthGuard)
-// @ApiBearerAuth('JWT-auth')
+@UseGuards(AuthGuard)
+@ApiBearerAuth('JWT-auth')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 

@@ -17,7 +17,7 @@ export class ColumnService {
 
   async findAllColumns(): Promise<ColumnEntity[]> {
     return await this.columnRepository.find({
-      relations: ['user'],
+      relations: ['user', 'cards'],
     });
   }
 
