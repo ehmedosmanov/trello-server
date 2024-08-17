@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   UseGuards,
@@ -65,7 +66,7 @@ export class UserController {
     type: UserEntity,
   })
   @ApiNotFoundResponse({ description: 'User not found' })
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findUserById(id);
   }
 
@@ -77,7 +78,11 @@ export class UserController {
   })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBadRequestResponse({ description: 'Invalid data provided' })
-  update(@Param('id') id: number, @Body() updateUserDto: AuthDto) {
+  @ApiBody({ type: AuthDto })
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateUserDto: AuthDto,
+  ) {
     return this.userService.updateUser(id, updateUserDto);
   }
 
@@ -85,7 +90,7 @@ export class UserController {
   @ApiOperation({ summary: 'Delete user by Id' })
   @ApiOkResponse({ description: 'User deleted successfully' })
   @ApiNotFoundResponse({ description: 'User not found' })
-  delete(@Param('id') id: number) {
+  delete(@Param('id', ParseIntPipe) id: number) {
     return this.userService.deleteUser(id);
   }
 
@@ -95,7 +100,7 @@ export class UserController {
     description: 'List of all columns by the user',
     type: [ColumnEntity],
   })
-  getUserColumns(@Param('id') userId: number) {
+  getUserColumns(@Param('id', ParseIntPipe) userId: number) {
     return this.userService.findUserColumns(userId);
   }
 
@@ -103,7 +108,10 @@ export class UserController {
   @ApiOperation({ summary: 'Delete a column by userId and own id' })
   @ApiOkResponse({ description: 'Column deleted successfully' })
   @ApiNotFoundResponse({ description: 'User or column not found' })
-  deleteColumnByUser(@Param('userId') userId: number, @Param('id') id: number) {
+  deleteColumnByUser(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
     return this.userService.deleteColumnsByUser(userId, id);
   }
 }

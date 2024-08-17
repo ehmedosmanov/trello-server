@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   UseGuards,
@@ -61,7 +62,7 @@ export class ColumnController {
     type: ColumnEntity,
   })
   @ApiNotFoundResponse({ description: 'Column not found' })
-  findOne(@Param('id') id: number) {
+  findById(@Param('id', ParseIntPipe) id: number) {
     return this.columnService.findColumnById(id);
   }
 
@@ -72,15 +73,17 @@ export class ColumnController {
     type: ColumnEntity,
   })
   @ApiNotFoundResponse({ description: 'Column not found' })
-  update(@Param('id') id: number, @Body() updateColumnDto: UpdateColumnDto) {
+  @ApiBody({ type: UpdateColumnDto })
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateColumnDto: UpdateColumnDto) {
     return this.columnService.updateColumn(id, updateColumnDto);
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Delete a column by ID' })
   @ApiOkResponse({ description: 'Column deleted successfully' })
   @ApiNotFoundResponse({ description: 'Column not found' })
-  delete(@Param('id') id: number) {
+  delete(@Param('id', ParseIntPipe) id: number) {
     return this.columnService.deleteColumn(id);
   }
 }

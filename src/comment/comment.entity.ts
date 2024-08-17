@@ -10,7 +10,7 @@ export class CommentEntity extends BaseEntity {
   @Column({ type: 'varchar', name: 'comment', nullable: false })
   content: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => CardEntity })
   @ManyToOne(() => CardEntity, (card) => card.comments, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'card_id' })
   card: CardEntity;
@@ -19,7 +19,7 @@ export class CommentEntity extends BaseEntity {
   @Column({ type: 'integer', nullable: false, name: 'card_id' })
   cardId: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => UserEntity })
   @ManyToOne(() => UserEntity, (user) => user.comments, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
