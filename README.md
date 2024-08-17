@@ -1,3 +1,10 @@
+## Trello Clone DB Diagram
+
+![Trello Clone DB Diagram](./trello-db.png)
+
+[View the DB Diagram on dbdiagram.io](https://dbdiagram.io/d/66be757c8b4bb5230e3e787a)
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
