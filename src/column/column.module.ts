@@ -4,23 +4,13 @@ import { ColumnService } from './column.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ColumnEntity } from './column.entity';
 import { UserModule } from 'src/user/user.module';
-import { UserEntity } from 'src/user/user.entity';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ColumnEntity]),
     UserModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configservice: ConfigService) => ({
-        global: true,
-        secret: configservice.get<string>('JWT_SECRET_KEY'),
-        signOptions: { expiresIn: '15m' },
-      }),
-    }),
+    AuthModule
   ],
   controllers: [ColumnController],
   providers: [ColumnService],

@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { AuthDto } from '../auth/dtos/auth.dto';
 import { ColumnEntity } from 'src/column/column.entity';
-
+import * as bcrypt from 'bcryptjs'
 @Injectable()
 export class UserService {
   constructor(
@@ -47,9 +47,14 @@ export class UserService {
   }
 
   async updateUser(id: number, dto: Partial<AuthDto>): Promise<UserEntity> {
-    await this.findUserById(id);
-    await this.userRepository.update(id, dto);
-    return await this.findUserById(id);
+    const user = await this.findUserById(id);
+
+    if (dto.password) {
+      dto.password = bcrypt.hashSync(dto.password, Number(process.env.PASWORD_SALT));
+    }
+  
+    Object.assign(user, dto);
+    return await this.userRepository.save(user);
   }
 
   async deleteUser(id: number): Promise<void> {

@@ -21,6 +21,10 @@ export class CardEntity extends BaseEntity {
   @Column({ type: 'varchar', name: 'description', nullable: true })
   description: string;
 
+  @ApiProperty()
+  @Column({ type: 'integer', name: 'order', nullable: false, default: 0 })
+  order: number;
+
   @ManyToOne(() => ColumnEntity, (column) => column.cards, {
     onDelete: 'CASCADE',
   })

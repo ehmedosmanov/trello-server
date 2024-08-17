@@ -32,7 +32,10 @@ export class ColumnService {
   }
 
   async findColumnById(id: number): Promise<ColumnEntity> {
-    const column = await this.columnRepository.findOne({ where: { id } });
+    const column = await this.columnRepository.findOne({
+      where: { id },
+      relations: ['user', 'cards'],
+    });
     if (!column) {
       throw new NotFoundException(`Column Not found by id: ${id}`);
     }

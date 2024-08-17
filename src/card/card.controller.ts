@@ -27,6 +27,7 @@ import { CardEntity } from './card.entity';
 import { CreateCardDto } from './dtos/create-card.dto';
 import { UpdateCardDto } from './dtos/update-card.dto';
 import { MoveCardDto } from './dtos/move-card.dto';
+import { ReorderCardsDto } from './dtos/reorder-card.dto';
 
 @Controller('cards')
 @ApiTags('Cards')
@@ -119,5 +120,15 @@ export class CardController {
   @ApiNotFoundResponse({ description: 'Card not found' })
   findCardsByColumnId(@Param('columnId', ParseIntPipe) id: number) {
     return this.cardService.findCardsByColumnId(id);
+  }
+
+  @Put(':columnId/reorder')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Reorder cards in a column' })
+  reorderCards(
+    @Param('columnId', ParseIntPipe) columnId: number,
+    @Body() reorderCardsDto: ReorderCardsDto,
+  ) {
+    return this.cardService.reorderCards(columnId, reorderCardsDto);
   }
 }

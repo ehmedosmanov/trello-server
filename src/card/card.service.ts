@@ -7,6 +7,7 @@ import { UpdateCardDto } from './dtos/update-card.dto';
 import { ColumnEntity } from 'src/column/column.entity';
 import { ColumnService } from 'src/column/column.service';
 import { MoveCardDto } from './dtos/move-card.dto';
+import { ReorderCardsDto } from './dtos/reorder-card.dto';
 
 @Injectable()
 export class CardService {
@@ -21,8 +22,17 @@ export class CardService {
       createCardDto.columnId,
     );
 
+    const maxOrder = await this.cardRepository
+      .createQueryBuilder('card')
+      .where('card.columnId = :columnId', { columnId: createCardDto.columnId })
+      .select('MAX(card.order)', 'max')
+      .getRawOne();
+
+    const newOrder = maxOrder ? maxOrder.max + 1 : 1;
+
     const createCard = this.cardRepository.create({
       ...createCardDto,
+      order: newOrder,
       column,
     });
     return await this.cardRepository.save(createCard);
@@ -79,5 +89,16 @@ export class CardService {
       where: { columnId },
       relations: ['comments'],
     });
+  }
+
+  async reorderCards(
+    columnId: number,
+    reorderCardsDto: ReorderCardsDto,
+  ): Promise<void> {
+    const column = await this.columnService.findColumnById(columnId);
+
+    for (const { id, order } of reorderCardsDto.cards) {
+      await this.cardRepository.update({ id, column }, { order });
+    }
   }
 }

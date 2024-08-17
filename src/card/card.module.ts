@@ -4,11 +4,16 @@ import { CardService } from './card.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CardEntity } from './card.entity';
 import { ColumnModule } from 'src/column/column.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CardEntity]), ColumnModule],
+  imports: [
+    TypeOrmModule.forFeature([CardEntity]),
+    ColumnModule,
+    AuthModule
+  ],
   controllers: [CardController],
   providers: [CardService],
-  exports: [CardService]
+  exports: [CardService],
 })
 export class CardModule {}
