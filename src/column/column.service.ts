@@ -4,8 +4,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateColumnDto } from './dtos/create-column.dto';
 import { UpdateColumnDto } from './dtos/update-column.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserService } from 'src/user/user.service';
-import { UserEntity } from 'src/user/user.entity';
+import { UserService } from '../user/user.service';
+import { UserEntity } from '../user/user.entity';
 
 @Injectable()
 export class ColumnService {

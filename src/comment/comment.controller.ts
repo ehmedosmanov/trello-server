@@ -24,7 +24,7 @@ import {
 import { CommentEntity } from './comment.entity';
 import { CreateCommentDto } from './dtos/create-comment.dto';
 import { UpdateCommentDto } from './dtos/update-comment.dto';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('comment')
 @ApiTags('Comments')

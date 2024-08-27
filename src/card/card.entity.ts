@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { ColumnEntity } from '../column/column.entity';
 import { CommentEntity } from '../comment/comment.entity';
+import { UserEntity } from '../user/user.entity';
 
 @Entity('cards')
 export class CardEntity extends BaseEntity {
@@ -22,9 +23,15 @@ export class CardEntity extends BaseEntity {
   description: string;
 
   @ApiProperty()
-  @Column({ type: 'integer', name: 'order', nullable: false, default: 0 })
+  @Column({
+    type: 'integer',
+    name: 'order',
+    nullable: false,
+    default: 0,
+  })
   order: number;
 
+  @ApiProperty({ type: () => ColumnEntity })
   @ManyToOne(() => ColumnEntity, (column) => column.cards, {
     onDelete: 'CASCADE',
   })
@@ -35,7 +42,16 @@ export class CardEntity extends BaseEntity {
   @Column({ type: 'integer', name: 'column_id', nullable: false })
   columnId: number;
 
+  @ApiProperty({ type: () => UserEntity })
+  @ManyToOne(() => UserEntity, (user) => user.cards, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  user: UserEntity;
+
   @ApiProperty()
-  @OneToMany(() => CommentEntity, (comment) => comment.card)
+  @Column({ type: 'integer', name: 'user_id', nullable: false })
+  userId: number;
+
+  @ApiProperty()
+  @OneToMany(() => CommentEntity, (comment) => comment.card, { cascade: true })
   comments: CommentEntity[];
 }

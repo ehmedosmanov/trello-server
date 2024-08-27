@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateColumnDto {
   @ApiProperty({ example: 'To Do' })
@@ -8,7 +8,7 @@ export class CreateColumnDto {
   title: string;
 
   @ApiProperty({ example: 1 })
-  @IsInt()
+  @IsNumber()
   @IsNotEmpty()
   userId: number;
 }

@@ -3,9 +3,9 @@ import { CommentController } from './comment.controller';
 import { CommentService } from './comment.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommentEntity } from './comment.entity';
-import { CardModule } from 'src/card/card.module';
-import { UserModule } from 'src/user/user.module';
-import { AuthModule } from 'src/auth/auth.module';
+import { CardModule } from '../card/card.module';
+import { UserModule } from '../user/user.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [

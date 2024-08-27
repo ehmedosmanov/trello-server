@@ -3,8 +3,8 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
-import { ColumnEntity } from 'src/column/column.entity';
-import { AuthModule } from 'src/auth/auth.module';
+import { ColumnEntity } from '../column/column.entity';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [

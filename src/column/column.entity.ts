@@ -3,6 +3,7 @@ import { BaseEntity } from '../common/base.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { CardEntity } from '../card/card.entity';
+import { BoardEntity } from '../boards/board.entity';
 
 @Entity('columns')
 export class ColumnEntity extends BaseEntity {
@@ -11,15 +12,28 @@ export class ColumnEntity extends BaseEntity {
   title: string;
 
   @ApiProperty()
-  @OneToMany(() => CardEntity, (card) => card.column)
-  cards: CardEntity[];
-
-  @ApiProperty({ type: () => UserEntity })
-  @ManyToOne(() => UserEntity, (user) => user.columns, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'user_id' })
-  user: UserEntity;
+  @Column({
+    type: 'integer',
+    name: 'order',
+    nullable: false,
+    default: 0,
+  })
+  order: number;
 
   @ApiProperty()
-  @Column({ type: 'integer', name: 'user_id', nullable: false })
-  userId: number;
+  @OneToMany(() => CardEntity, (card) => card.column, {
+    cascade: true,
+  })
+  cards: CardEntity[];
+
+  @ApiProperty({ type: () => BoardEntity })
+  @ManyToOne(() => BoardEntity, (board) => board.columns, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'workspace_id' })
+  board: BoardEntity;
+
+  @ApiProperty()
+  @Column({ type: 'integer', nullable: false, name: 'workspace_id' })
+  public boardId: number;
 }

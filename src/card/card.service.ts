@@ -4,8 +4,8 @@ import { CardEntity } from './card.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCardDto } from './dtos/create-card.dto';
 import { UpdateCardDto } from './dtos/update-card.dto';
-import { ColumnEntity } from 'src/column/column.entity';
-import { ColumnService } from 'src/column/column.service';
+import { ColumnEntity } from '../column/column.entity';
+import { ColumnService } from '../column/column.service';
 import { MoveCardDto } from './dtos/move-card.dto';
 import { ReorderCardsDto } from './dtos/reorder-card.dto';
 
@@ -76,7 +76,7 @@ export class CardService {
       moveCardDto.newColumnId,
     );
 
-    card.column = newColumn;
+    // card.column = newColumn
     card.columnId = newColumn.id;
 
     return await this.cardRepository.save(card);

@@ -3,8 +3,8 @@ import { CardController } from './card.controller';
 import { CardService } from './card.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CardEntity } from './card.entity';
-import { ColumnModule } from 'src/column/column.module';
-import { AuthModule } from 'src/auth/auth.module';
+import { ColumnModule } from '../column/column.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [

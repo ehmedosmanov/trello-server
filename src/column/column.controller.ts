@@ -24,7 +24,7 @@ import {
 import { CreateColumnDto } from './dtos/create-column.dto';
 import { ColumnEntity } from './column.entity';
 import { UpdateColumnDto } from './dtos/update-column.dto';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('columns')
 @ApiTags('Columns')

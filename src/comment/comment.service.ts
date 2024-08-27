@@ -1,10 +1,10 @@
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CommentEntity } from './comment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCommentDto } from './dtos/create-comment.dto';
-import { CardService } from 'src/card/card.service';
+import { CardService } from '../card/card.service';
 import { UpdateCommentDto } from './dtos/update-comment.dto';
 
 @Injectable()
@@ -35,6 +35,14 @@ export class CommentService {
     const findAllCards = await this.commentRepository.find({
       relations: ['user', 'card'],
     });
+
+    // const findAllCards = await this.commentRepository
+    // .createQueryBuilder('comment')
+    // .leftJoinAndSelect('comment.user','user')
+    // .leftJoinAndSelect('comment.cart','cart')
+    // .select(['comment','user.name','cart.'])
+    // .getMany()
+
     return findAllCards;
   }
 

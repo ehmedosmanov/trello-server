@@ -94,24 +94,24 @@ export class UserController {
     return this.userService.deleteUser(id);
   }
 
-  @Get(':id/columns')
-  @ApiOperation({ summary: 'Get all columns by user Id' })
-  @ApiOkResponse({
-    description: 'List of all columns by the user',
-    type: [ColumnEntity],
-  })
-  getUserColumns(@Param('id', ParseIntPipe) userId: number) {
-    return this.userService.findUserColumns(userId);
-  }
+  // @Get(':id/columns')
+  // @ApiOperation({ summary: 'Get all columns by user Id' })
+  // @ApiOkResponse({
+  //   description: 'List of all columns by the user',
+  //   type: [ColumnEntity],
+  // })
+  // getUserColumns(@Param('id', ParseIntPipe) userId: number) {
+  //   return this.userService.findUserColumns(userId);
+  // }
 
-  @Delete(':userId/columns/:id')
-  @ApiOperation({ summary: 'Delete a column by userId and own id' })
-  @ApiOkResponse({ description: 'Column deleted successfully' })
-  @ApiNotFoundResponse({ description: 'User or column not found' })
-  deleteColumnByUser(
-    @Param('userId', ParseIntPipe) userId: number,
-    @Param('id', ParseIntPipe) id: number,
-  ) {
-    return this.userService.deleteColumnsByUser(userId, id);
-  }
+  // @Delete(':userId/columns/:id')
+  // @ApiOperation({ summary: 'Delete a column by userId and own id' })
+  // @ApiOkResponse({ description: 'Column deleted successfully' })
+  // @ApiNotFoundResponse({ description: 'User or column not found' })
+  // deleteColumnByUser(
+  //   @Param('userId', ParseIntPipe) userId: number,
+  //   @Param('id', ParseIntPipe) id: number,
+  // ) {
+  //   return this.userService.deleteColumnsByUser(userId, id);
+  // }
 }

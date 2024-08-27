@@ -12,7 +12,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CardService } from './card.service';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
